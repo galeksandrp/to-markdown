@@ -391,6 +391,17 @@ module.exports = [
     replacement: function (content) {
       return '\n\n' + content + '\n\n';
     }
+  },
+  
+  {
+    filter: 'img',
+    replacement: function(content, node) {
+      var alt = node.alt || '';
+      var src = node.getAttribute('src') || '';
+      var title = node.title || '';
+      var titlePart = title ? ' "'+ title +'"' : '';
+      return src ? '![' + alt + ']' + '(' + ((src.indexOf('//') === 0) ? 'https:' : '') + src + titlePart + ')' : '';
+    }
   }
 ];
 
@@ -541,9 +552,7 @@ module.exports = [
     filter: function () {
       return true;
     },
-    replacement: function (content, node) {
-      return this.outer(node, content);
-    }
+    replacement: function (innerHTML) { return innerHTML; }
   }
 ];
 },{}],4:[function(require,module,exports){
